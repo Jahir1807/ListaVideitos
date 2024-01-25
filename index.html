@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="vendor/bootstrap-5.2.3-dist (1)/bootstrap-5.2.3-dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.15.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="/manifest.json">
+    <title>Página Principal</title>
+</head>
+<script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js");
+    }
+</script>
+
+<body>
+
+    <div id="contenedor" class="container">
+
+        <header class="bg-dark text-white text-center p-3">
+            <img src="img/alas.jpg" alt="" class="img-fluid" style="max-width: 20%;">
+            <h3>Lista de vídeos</h3>
+        </header>
+
+        <nav id="menu" class="mt-3">
+            <form action="" class="d-flex">
+                <input type="search" name="buscar" id="buscar" class="form-control me-2" placeholder="Buscar"
+                    oninput="buscarVideo(); return false">
+            </form>
+        </nav>
+
+        <section id="idListaV" class="mt-3">
+            <h4 class="text-center">Vídeos</h4>
+
+            <div>
+                <div id="idCatalogo" class="row">
+                    <div class="col-lg-6 mb-3">
+                        <iframe width="100%" height="250" src=""></iframe>
+                    </div>
+
+                    <div class="col-lg-6 mb-3">
+                        <h4></h4>
+                        <h6></h6>
+                    </div>
+
+                    <div class="col-lg-6 mb-3">
+                        <i class="bi bi-heart-fill text-danger"></i>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // Array de videos
+                var videos = [
+                    { titulo: "Vid 1", desc: "romántica", url: "https://www.youtube.com/embed/Ez2j2qhAl9g?autoplay=1&mute=1" },
+                    { titulo: "Video 2", desc: "rockstart", url: "https://www.youtube.com/embed/vMZqaesNsPo?autoplay=1&mute=1" },
+                    { titulo: "Mira esto 3", desc: "sad", url: "https://www.youtube.com/embed/SXkzwxyLNSI?autoplay=1&mute=1" }
+                ];
+
+                // Obtener el elemento del buscador y la lista
+                var buscador = document.getElementById("buscar");
+                var listaVideos = document.getElementById("idCatalogo");
+
+                // Función para renderizar la lista de videos
+                function renderizarLista(videosMostrados) {
+                    // Limpiar la lista antes de renderizar de nuevo
+                    listaVideos.innerHTML = "";
+
+                    // Recorrer los videos mostrados y agregar cada video a la lista
+                    videosMostrados.forEach(function (video) {
+                        var divItem = document.createElement("div");
+                        divItem.className = "row";
+
+                        var iframe = document.createElement("iframe");
+                        iframe.width = "350";
+                        iframe.height = "200";
+                        iframe.src = video.url;
+                        iframe.setAttribute("allowfullscreen", "");
+
+                        var col1 = document.createElement("div");
+                        col1.className = "col";
+                        col1.appendChild(iframe);
+
+                        var col2 = document.createElement("div");
+                        col2.className = "col";
+                        var h4 = document.createElement("h4");
+                        h4.textContent = video.titulo;
+                        var h6 = document.createElement("h6");
+                        h6.textContent = video.desc;
+                        col2.appendChild(h4);
+                        col2.appendChild(h6);
+
+                        var col3 = document.createElement("div");
+                        col3.className = "col";
+                        var heartIcon = document.createElement("i");
+                        heartIcon.className = "bi bi-heart-fill text-danger";
+                        col3.appendChild(heartIcon);
+
+                        // Agregar las columnas al elemento de la lista
+                        divItem.appendChild(col1);
+                        divItem.appendChild(col2);
+                        divItem.appendChild(col3);
+
+                        // Agregar el elemento de la lista al contenedor de la lista
+                        listaVideos.appendChild(divItem);
+                    });
+                }
+
+                // Evento de cambio en el buscador
+                buscador.addEventListener("input", function () {
+                    var terminoBusqueda = buscador.value.toLowerCase();
+
+                    // Filtrar los videos en función del término de búsqueda
+                    var videosFiltrados = videos.filter(function (video) {
+                        return video.titulo.toLowerCase().includes(terminoBusqueda);
+                    });
+
+                    // Renderizar la lista de videos filtrados
+                    renderizarLista(videosFiltrados);
+                });
+
+                // Renderizar la lista completa al cargar la página
+                renderizarLista(videos);
+            </script>
+        </section>
+    </div>
+</body>
+
+</html>

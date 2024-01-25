@@ -1,0 +1,12 @@
+/* Estilos adicionales para hacer responsivo */
+@media (max-width: 767px) {
+    #idCatalogo .col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    #idCatalogo iframe {
+        width: 100%;
+        height: 200px;
+    }
+}
